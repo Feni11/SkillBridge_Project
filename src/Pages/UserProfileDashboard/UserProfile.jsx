@@ -1,4 +1,4 @@
-import { Box, Typography, Avatar, Grid } from "@mui/material";
+import { Box, Typography, Grid } from "@mui/material";
 import ProfileDashboard from "./ProfileDashboard";
 
 const headingColor = "#072047";
