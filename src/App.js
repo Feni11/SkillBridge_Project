@@ -1,17 +1,25 @@
 import "./App.css";
 import { Route, Switch } from "react-router-dom";
 import { BrowserRouter } from "react-router-dom/cjs/react-router-dom";
+
+// Auth Page
 import Login from "./Pages/Auth/Login";
 import SignUp from "./Pages/Auth/SignUp";
+import ForgotPass from "./Pages/Auth/ForgotPass";
+
+// Layout Page
 import Header from "./Pages/components/layout/Header";
-import Home from "./Pages/HomePage/Home";
 import Footer from "./Pages/components/layout/Footer";
+
+// user visit bashboard
+import Home from "./Pages/HomePage/Home";
+
 //Quick link
 import SkillPage from "./Pages/Quick_Links/SkillPage";
 import AboutUsPage from "./Pages/Quick_Links/AboutUsPage";
 import FAQ from "./Pages/Quick_Links/FAQ";
-// import ContactUsPage from "./Pages/Quick_Links/ContactUsPageCopy";
 import Contact_us from "./Pages/Quick_Links/ContactUsPage";
+
 // User Profile
 import ProfileDashboard from "./Pages/UserProfileDashboard/ProfileDashboard";
 import UserSkill from "./Pages/UserProfileDashboard/UserSkill";
@@ -20,11 +28,15 @@ import UserSwap from "./Pages/UserProfileDashboard/UserSwap";
 import UserRequest from "./Pages/UserProfileDashboard/UserRequest";
 import UserProfile from "./Pages/UserProfileDashboard/UserProfile";
 
+// Admin Profile
+import Sidebar from "./Pages/Admin/AdminDashboard";
+
 function App() {
   return (
     <div className="App">
       <BrowserRouter>
         <Switch>
+          {/* Auth */}
           <Route path="/login">
             <Login />
           </Route>
@@ -33,8 +45,16 @@ function App() {
             <SignUp />
           </Route>
 
-          {/* User Profile */}
+          <Route path="/forgotPass">
+            <ForgotPass/>
+          </Route>
 
+          {/* Admin Profile */}
+          <Route path="/Admin">
+            <Sidebar />
+          </Route>
+
+          {/* User Profile */}
           <Route path="/dashboard/profile">
             <UserProfile />
           </Route>
@@ -55,10 +75,11 @@ function App() {
             <UserRequest />
           </Route>
 
-           <Route path="/dashboard">
+          <Route path="/dashboard">
             <UserProfile />
           </Route>
 
+          {/* User Visited Dashboard */}
           <Route>
             <Header />
             <Switch>

@@ -78,6 +78,11 @@ const UserAvailability = () => {
             border: "1px solid rgba(7,32,71,0.07)",
             p: 3,
             maxWidth: 600,
+            "@media (max-width: 550px)": {
+              flexDirection: "column",
+              alignItems: "flex-start",
+              gap: 1,
+            },
           }}
         >
           <Box
@@ -115,6 +120,7 @@ const UserAvailability = () => {
               Schedule
             </Typography>
           </Box>
+
           {availRows.map((row) => (
             <Box
               key={row.label}
@@ -127,6 +133,10 @@ const UserAvailability = () => {
                 px: 2,
                 py: 1.5,
                 mb: 1.2,
+                flexWrap: "wrap", // ✅ Important
+                "@media (max-width: 350px)": {
+                  gap: 2,
+                },
               }}
             >
               <Typography
@@ -135,10 +145,14 @@ const UserAvailability = () => {
                   fontWeight: 600,
                   fontSize: "13px",
                   color: headingColor,
+                  textAlign: 'left',
+                  flex: 1, 
+                  minWidth: 0, 
                 }}
               >
                 {row.label}
               </Typography>
+
               <Box
                 sx={{
                   fontSize: "12px",
@@ -149,6 +163,13 @@ const UserAvailability = () => {
                   px: 1.5,
                   py: 0.4,
                   borderRadius: "100px",
+                  whiteSpace: "nowrap",
+
+                  "@media (max-width: 350px)": {
+                    flexBasis: "100%", // ✅ Badge ne niche dhakelvi mate
+                    width: "fit-content",
+                    // mt: 0.5,
+                  },
                 }}
               >
                 {row.value}

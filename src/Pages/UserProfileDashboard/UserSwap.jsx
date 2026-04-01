@@ -14,9 +14,7 @@ const theme = createTheme({
       //custome breakpoint
       B1060: 1060,
       B550: 550,
-      B490: 490,
-      B388: 388,
-      B331: 331,
+
     },
   },
 });
@@ -141,6 +139,7 @@ const UserSwap = () => {
 
             {swaps.map((swap, i) => (
               <Box
+                key={i}
                 sx={{
                   display: "flex",
                   alignItems: "center",
@@ -151,10 +150,16 @@ const UserSwap = () => {
                   py: 1.8,
                   mb: 1.5,
                   border: "1px solid rgba(7,32,71,0.06)",
-                  // flexWrap: { xs: "wrap", B550: "nowrap" },
-                  "@media (max-width: 550px)": { flexWrap: "wrap" },
+
+                  // Mobile: Change to column layout
+                  "@media (max-width: 550px)": {
+                    flexDirection: "column",
+                    alignItems: "flex-start",
+                    gap: 1,
+                  },
                 }}
               >
+                {/* Avatar */}
                 <Box
                   sx={{
                     width: 42,
@@ -173,7 +178,9 @@ const UserSwap = () => {
                 >
                   {swap.letter}
                 </Box>
-                <Box sx={{ flex: 1 }}>
+
+                {/* Name & Details */}
+                <Box sx={{ flex: 1, minWidth: 0 }}>
                   <Typography
                     sx={{
                       fontFamily: headingFamily,
@@ -181,7 +188,6 @@ const UserSwap = () => {
                       fontSize: "13px",
                       color: headingColor,
                       textAlign: "left",
-                      ml: { xs: 0, md: 3 },
                     }}
                   >
                     {swap.name}
@@ -192,32 +198,38 @@ const UserSwap = () => {
                       fontSize: "12px",
                       color: "#4A6080",
                       textAlign: "left",
-                      ml: { xs: 0, md: 3 },
                       mt: 0.3,
                     }}
                   >
                     Taught: {swap.taught} · Learned: {swap.learned}
                   </Typography>
                 </Box>
-                
-                  <Box
-                    sx={{
-                      fontSize: "11px",
-                      fontWeight: 700,
-                      fontFamily: subFamily,
-                      px: 1.5,
-                      py: 0.5,
-                      borderRadius: "100px",
-                      "@media (max-width: 550px)": { width: "100%", mx: 'auto', textAlign: "right" },
-                      background:
-                        swap.status === "Completed"
-                          ? "rgba(0,151,167,0.1)"
-                          : "rgba(234,179,8,0.1)",
-                      color: swap.status === "Completed" ? subColor : "#a06000",
-                    }}
-                  >
-                    {swap.status}
-                  </Box>
+
+                {/* Badge - Now it will naturally go to new line on mobile */}
+                <Box
+                  sx={{
+                    fontSize: "11px",
+                    fontWeight: 700,
+                    fontFamily: subFamily,
+                    px: 1.5,
+                    py: 0.5,
+                    borderRadius: "100px",
+                    background:
+                      swap.status === "Completed"
+                        ? "rgba(0,151,167,0.1)"
+                        : "rgba(234,179,8,0.1)",
+                    color: swap.status === "Completed" ? subColor : "#a06000",
+                    whiteSpace: "nowrap",
+
+                    // On mobile: full width, left aligned
+                    "@media (max-width: 550px)": {
+                      width: "fit-content",
+                      mt: 0.5,
+                    },
+                  }}
+                >
+                  {swap.status}
+                </Box>
               </Box>
             ))}
           </Box>

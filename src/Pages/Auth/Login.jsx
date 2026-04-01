@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Link from "react-router-dom";
 import {
   Box,
   Typography,
@@ -87,8 +88,6 @@ const Login = () => {
   // const boxColor = "#8C6D5A";
   const headingFamily = '"Plus Jakarta Sans", sans-serif';
   const subFamily = '"Inter", sans-serif';
-
-  
 
   return (
     <>
@@ -214,7 +213,7 @@ const Login = () => {
                     ),
                     sx: {
                       // backgroundColor: "rgba(254, 254, 254, 0.07)",
-                      backgroundColor:"#ffff",
+                      backgroundColor: "#ffff",
                       borderRadius: "8px",
 
                       "& fieldset": {
@@ -304,7 +303,7 @@ const Login = () => {
                     ),
                     sx: {
                       // backgroundColor: "#FBF7F4",
-                      backgroundColor:"#ffff",
+                      backgroundColor: "#ffff",
 
                       borderRadius: "8px",
                       "& fieldset": { borderColor: "#072047" },
@@ -326,7 +325,9 @@ const Login = () => {
                 {/* forgot password */}
                 <Typography
                   component="a"
-                  href="#"
+                  href="/ForgotPass"
+                  // component = {Link}
+                  // to="/ForgotPass"
                   sx={{
                     // color: "#A39081",
                     color: subColor,

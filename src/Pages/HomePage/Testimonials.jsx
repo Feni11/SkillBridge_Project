@@ -88,7 +88,7 @@ const testimonials = [
   },
 ];
 
-const VISIBLE = 3;
+// const VISIBLE = 3;
 
 const Testimonials = () => {
   // const theme = useTheme();
