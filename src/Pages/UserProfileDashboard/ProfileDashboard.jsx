@@ -10,29 +10,29 @@ const headingFamily = '"Plus Jakarta Sans", sans-serif';
 const subFamily = '"Inter", sans-serif';
 
 const navItems = [
-  { label: "Profile", icon: "👤", path: "/dashboard/profile", section: "Main" },
+  { label: "Profile", icon: "👤", path: "/profile/userprofile", section: "Main" },
   {
     label: "My Skills",
     icon: "🎯",
-    path: "/dashboard/skills",
+    path: "/profile/skills",
     section: "Skills",
   },
   {
     label: "Availability",
     icon: "⏳",
-    path: "/dashboard/availability",
+    path: "/profile/availability",
     section: "Skills",
   },
   {
     label: "My Swaps",
     icon: "🔄",
-    path: "/dashboard/myswaps",
+    path: "/profile/myswaps",
     section: "Activity",
   },
   {
     label: "Requests",
     icon: "📩",
-    path: "/dashboard/requests",
+    path: "/profile/requests",
     section: "Activity",
     badge: 2,
   },
@@ -242,7 +242,7 @@ const SidebarContent = ({ location, handleLogout, onClose }) => {
   );
 };
 
-const ProfileDashboard = ({ children, pageTitle }) => {
+const ProfileDashboard = ({ children }) => {
   const location = useLocation();
   const history = useHistory();
   const [drawerOpen, setDrawerOpen] = useState(false);

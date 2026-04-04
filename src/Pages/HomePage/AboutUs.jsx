@@ -167,7 +167,7 @@ const AboutUs = () => {
                         color: headingColor,
                         lineHeight: 1,
                         mb: 0.8,
-                        textAlign: "left",
+                        textAlign: {xs: "center", B490: "left"},
                       }}
                     >
                       {s.value}
@@ -177,7 +177,7 @@ const AboutUs = () => {
                         fontFamily: subFamily,
                         fontSize: { xs: "13px", md: "13.6px" },
                         color: "#4A6080",
-                        textAlign: "left",
+                        textAlign: {xs: "center", B490: "left"},
                       }}
                     >
                       {s.label}

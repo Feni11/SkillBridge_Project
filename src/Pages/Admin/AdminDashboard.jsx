@@ -1,262 +1,292 @@
+import { Box, Typography, Grid } from "@mui/material";
+import Sidebar from '../Admin/Sidebar'
 import { useState } from "react";
-import { Box, Typography } from "@mui/material";
 
 const headingFamily = '"Plus Jakarta Sans", sans-serif';
 const subFamily = '"Inter", sans-serif';
+const navy = "#072047";
+const teal = "#0097A7";
+const muted = "#4A6080";
 
-const navSections = [
+const stats = [
   {
-    label: "Main",
-    items: [
-      { id: "dashboard", icon: "📊", label: "Dashboard" },
-      { id: "users", icon: "👥", label: "Users" },
-    ],
+    icon: "👥",
+    value: "1,284",
+    label: "Total Signups",
+    change: "+12% this month",
+    up: true,
+    color: teal,
   },
   {
-    label: "Skills",
-    items: [
-      { id: "skillcategory", icon: "🗂️", label: "Skill Category" },
-      { id: "swapusers", icon: "🔄", label: "Swap Users" },
-      { id: "skillapproval", icon: "✅", label: "Skill Approval" },
-    ],
+    icon: "🎯",
+    value: "191",
+    label: "Total Skills",
+    change: "+8% this month",
+    up: true,
+    color: navy,
   },
   {
-    label: "Finance & Reports",
-    items: [
-      { id: "revenue", icon: "💰", label: "Revenue" },
-      { id: "complaints", icon: "⚠️", label: "Complaints" },
-      { id: "verified", icon: "✔️", label: "Verified Badge" },
-    ],
+    icon: "🔄",
+    value: "115",
+    label: "Swap Teachers",
+    change: "+15% this month",
+    up: true,
+    color: "#00ACC1",
   },
   {
-    label: "Communication",
-    items: [
-      { id: "contactus", icon: "✉️", label: "Contact Us" },
-      { id: "announcement", icon: "📢", label: "Announcement" },
-    ],
-  },
-  {
-    label: "",
-    items: [{ id: "settings", icon: "⚙️", label: "Settings" }],
+    icon: "⚠️",
+    value: "8",
+    label: "Complaints",
+    change: "-3% this month",
+    up: false,
+    color: "#e53935",
   },
 ];
 
-const Sidebar = ({ active, setActive }) => {
-  return (
-    <Box
-      sx={{
-        width: 240,
-        minWidth: 240,
-        background: "#072047",
-        minHeight: "100vh",
-        height: "100vh", // ← fix
-        position: "fixed",
-        left: 0,
-        top: 0,
-        display: "flex",
-        flexDirection: "column",
-        zIndex: 100,
-        overflowY: "auto", // ← fix: scroll enable
-        overflowX: "hidden",
-        // scrollbar hide
-        "&::-webkit-scrollbar": { width: "4px" },
-        "&::-webkit-scrollbar-thumb": {
-          background: "rgba(255,255,255,0.1)",
-          borderRadius: "4px",
-        },
-      }}
-    >
-      {/* Logo */}
-      <Box
-        sx={{
-          px: 2.5,
-          pt: 3,
-          pb: 2.5,
-          borderBottom: "1px solid rgba(255,255,255,0.08)",
-          flexShrink: 0,
-        }}
-      >
-        <Typography
-          sx={{
-            fontFamily: headingFamily,
-            fontWeight: 800,
-            fontSize: "20px",
-            color: "#fff",
-            textAlign: "left",
-          }}
-        >
-          Skill
-          <Box component="span" sx={{ 
-            color: "#2dcfdf", 
-            
-           }}>
-            Bridge
-          </Box>
-        </Typography>
-        <Typography
-          sx={{
-            fontFamily: subFamily,
-            fontSize: "10px",
-            color: "rgba(255,255,255,0.4)",
-            letterSpacing: "1.5px",
-            textAlign: "left",
-            textTransform: "uppercase",
-            mt: 0.3,
-          }}
-        >
-          Admin Panel
-        </Typography>
-      </Box>
+const activities = [
+  {
+    icon: "👤",
+    bg: "rgba(0,151,167,0.12)",
+    text: "Rhea Shah joined the platform",
+    time: "2 min ago",
+  },
+  {
+    icon: "🔄",
+    bg: "rgba(7,32,71,0.08)",
+    text: "Karan Patel & Ananya Singh started a swap",
+    time: "15 min ago",
+  },
+  {
+    icon: "⚠️",
+    bg: "rgba(229,57,53,0.1)",
+    text: "New complaint filed by Pooja Shah",
+    time: "1 hr ago",
+  },
+  {
+    icon: "✅",
+    bg: "rgba(46,125,50,0.1)",
+    text: "Raj Mehta's profile approved",
+    time: "2 hr ago",
+  },
+];
 
-      {/* Admin Info */}
+const AdminDashboard = () => {
+const [active, setActive] = useState("dashboard");
+
+  return (
+    <Sidebar active={active} setActive={setActive}>
+    <Box sx={{ p: { xs: 2, md: 3.5 } }}>
+      {/* Topbar */}
       <Box
         sx={{
-          px: 2.5,
-          py: 2,
-          borderBottom: "1px solid rgba(255,255,255,0.08)",
-          display: "flex",
+          display: { xs: "none", md: "flex" },
           alignItems: "center",
-          gap: 1.5,
-          flexShrink: 0,
+          justifyContent: "space-between",
+          mb: 3,
         }}
       >
-        <Box
-          sx={{
-            width: 40,
-            height: 40,
-            borderRadius: "50%",
-            background: "linear-gradient(135deg, #0097A7, #2dcfdf)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontFamily: headingFamily,
-            fontWeight: 800,
-            fontSize: "16px",
-            color: "#fff",
-            flexShrink: 0,
-          }}
-        >
-          A
-        </Box>
         <Box>
           <Typography
             sx={{
               fontFamily: headingFamily,
-              fontWeight: 700,
-              fontSize: "13px",
-              color: "#fff",
+              fontWeight: 800,
+              fontSize: "22px",
+              color: navy,
+              textAlign: 'left',
             }}
           >
-            Admin User
+            Dashboard Overview
           </Typography>
           <Typography
             sx={{
               fontFamily: subFamily,
-              fontSize: "11px",
-              color: "rgba(255,255,255,0.4)",
+              fontSize: "13px",
+              color: muted,
+              mt: 0.3,
+              textAlign: 'left',
             }}
           >
-            Super Admin
+            Welcome back, Admin 👋
           </Typography>
+        </Box>
+        <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+          <Box
+            sx={{
+              width: 36,
+              height: 36,
+              borderRadius: "10px",
+              background: "#F4F8FC",
+              border: "1px solid rgba(7,32,71,0.08)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              fontSize: "16px",
+              position: "relative",
+            }}
+          >
+            🔔
+            <Box
+              sx={{
+                width: 7,
+                height: 7,
+                borderRadius: "50%",
+                background: "#e53935",
+                position: "absolute",
+                top: 6,
+                right: 6,
+                border: "1.5px solid #fff",
+              }}
+            />
+          </Box>
+          <Box
+            sx={{
+              width: 34,
+              height: 34,
+              borderRadius: "50%",
+              background: "linear-gradient(135deg, #0097A7, #2dcfdf)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontFamily: headingFamily,
+              fontWeight: 800,
+              fontSize: "13px",
+              color: "#fff",
+            }}
+          >
+            A
+          </Box>
         </Box>
       </Box>
 
-      {/* Nav */}
-      <Box sx={{ flex: 1, py: 1.5 }}>
-        {navSections.map((section, si) => (
-          <Box key={si}>
-            {section.label && (
+      {/* Stats */}
+      <Grid container spacing={2} sx={{ mb: 3 }}>
+        {stats.map((s) => (
+          <Grid key={s.label} size={{ xs: 12, sm: 6, md: 3 }}>
+            <Box
+              sx={{
+                background: "#fff",
+                borderRadius: "16px",
+                p: { xs: 2, md: 2.5 },
+                border: "1px solid rgba(7,32,71,0.08)",
+                boxShadow: "0 4px 16px rgba(7,32,71,0.05)",
+                transition: "all 0.3s ease",
+                "&:hover": {
+                  transform: "translateY(-3px)",
+                  boxShadow: "0 8px 24px rgba(7,32,71,0.1)",
+                },
+              }}
+            >
+              <Typography sx={{ fontSize: "28px", mb: 1 }}>{s.icon}</Typography>
               <Typography
                 sx={{
-                  fontFamily: subFamily,
-                  fontSize: "9px",
-                  fontWeight: 700,
-                  letterSpacing: "1.8px",
-                  textTransform: "uppercase",
-                  color: "rgba(255,255,255,0.25)",
-                  px: 2.5,
-                  pt: 1.5,
-                  pb: 0.5,
+                  fontFamily: headingFamily,
+                  fontWeight: 800,
+                  fontSize: { xs: "20px", md: "26px" },
+                  color: s.color,
+                  mb: 0.5,
                 }}
               >
-                {section.label}
+                {s.value}
               </Typography>
-            )}
-            {section.items.map((item) => (
-              <Box
-                key={item.id}
-                onClick={() => setActive(item.id)}
+              <Typography
+                sx={{ fontFamily: subFamily, fontSize: "12px", color: muted }}
+              >
+                {s.label}
+              </Typography>
+              {/* <Typography
                 sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 1.2,
-                  px: 2.5,
-                  py: 1.1,
-                  cursor: "pointer",
                   fontFamily: subFamily,
-                  fontSize: "13px",
-                  fontWeight: 500,
-                  color:
-                    active === item.id ? "#2dcfdf" : "rgba(255,255,255,0.55)",
-                  background:
-                    active === item.id ? "rgba(0,151,167,0.12)" : "transparent",
-                  borderLeft: `3px solid ${active === item.id ? "#2dcfdf" : "transparent"}`,
-                  transition: "all 0.2s",
-                  "&:hover": {
-                    color: "#fff",
-                    background: "rgba(255,255,255,0.05)",
-                  },
+                  fontSize: "11px",
+                  fontWeight: 600,
+                  color: s.up ? "#2e7d32" : "#e53935",
+                  mt: 0.5,
                 }}
               >
-                <Box
-                  sx={{
-                    fontSize: "15px",
-                    width: 20,
-                    textAlign: "center",
-                    flexShrink: 0,
-                  }}
-                >
-                  {item.icon}
-                </Box>
-                {item.label}
-              </Box>
-            ))}
-            {si < navSections.length - 1 && (
-              <Box
-                sx={{
-                  height: "1px",
-                  background: "rgba(255,255,255,0.06)",
-                  mx: 2.5,
-                  my: 1,
-                }}
-              />
-            )}
-          </Box>
+                {s.change}
+              </Typography> */}
+            </Box>
+          </Grid>
         ))}
-      </Box>
+      </Grid>
 
-      {/* Logout */}
-      <Box
+      {/* Recent Activity */}
+      {/* <Box
         sx={{
-          px: 2.5,
-          py: 2,
-          borderTop: "1px solid rgba(255,255,255,0.08)",
-          display: "flex",
-          alignItems: "center",
-          gap: 1.2,
-          cursor: "pointer",
-          flexShrink: 0,
-          fontFamily: subFamily,
-          fontSize: "13px",
-          color: "rgba(255,255,255,0.4)",
-          transition: "color 0.2s",
-          "&:hover": { color: "#e53935" },
+          background: "#fff",
+          borderRadius: "16px",
+          p: { xs: 2.5, md: 3 },
+          border: "1px solid rgba(7,32,71,0.08)",
+          boxShadow: "0 4px 16px rgba(7,32,71,0.05)",
         }}
       >
-        <span>🚪</span> Logout
-      </Box>
+        <Typography
+          sx={{
+            fontFamily: headingFamily,
+            fontWeight: 700,
+            fontSize: "15px",
+            color: navy,
+            mb: 2,
+          }}
+        >
+          Recent Activity
+        </Typography>
+        {activities.map((a, i) => (
+          <Box
+            key={i}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: 2,
+              py: 1.8,
+              borderBottom:
+                i < activities.length - 1
+                  ? "1px solid rgba(7,32,71,0.06)"
+                  : "none",
+            }}
+          >
+            <Box
+              sx={{
+                width: 38,
+                height: 38,
+                borderRadius: "10px",
+                background: a.bg,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                fontSize: "16px",
+                flexShrink: 0,
+              }}
+            >
+              {a.icon}
+            </Box>
+            <Typography
+              sx={{
+                fontFamily: subFamily,
+                fontSize: "13px",
+                color: navy,
+                flex: 1,
+              }}
+            >
+              {a.text}
+            </Typography>
+            <Typography
+              sx={{
+                fontFamily: subFamily,
+                fontSize: "11px",
+                color: muted,
+                flexShrink: 0,
+              }}
+            >
+              {a.time}
+            </Typography>
+          </Box>
+        ))}
+      </Box> */}
+
     </Box>
+    </Sidebar>
   );
 };
 
-export default Sidebar;
+export default AdminDashboard;

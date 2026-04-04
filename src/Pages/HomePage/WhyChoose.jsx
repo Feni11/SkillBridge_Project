@@ -14,6 +14,7 @@ const theme = createTheme({
       B1060: 1060,
       B950: 950,
       B490: 490, //py:0
+      B435: 435,
       B388: 388,
       B331: 331,
     },
@@ -87,10 +88,10 @@ const WhyChoose = () => {
                   fontFamily: headingFamily,
                   fontWeight: 800,
                   fontSize: {
-                    xs: "32px",
-                    B331: "35px",
-                    sm: "37px",
-                    md: "40px",
+                    xs: "26px",
+                    B435: "29.5px",
+                    sm: "35px",
+                    md: "38px",
                   },
                   color: headingColor,
                   textAlign: "left",

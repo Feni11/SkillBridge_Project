@@ -29,7 +29,16 @@ import UserRequest from "./Pages/UserProfileDashboard/UserRequest";
 import UserProfile from "./Pages/UserProfileDashboard/UserProfile";
 
 // Admin Profile
-import Sidebar from "./Pages/Admin/AdminDashboard";
+import Sidebar from "./Pages/Admin/Sidebar";
+import AdminDashboard from "./Pages/Admin/AdminDashboard";
+import AdminUsers from "./Pages/Admin/AdminUsers";
+import AdminSwapUsers from "./Pages/Admin/AdminSwapUsers";
+import AdminSkillCategories from "./Pages/Admin/AdminSkillCategories";
+import AdminContactMess from "./Pages/Admin/AdminContactMess";
+import AdminVerified from "./Pages/Admin/AdminVerified";
+import AdminSkillApproval from "./Pages/Admin/AdminSkillApproval";
+import AdminComplaints from "./Pages/Admin/AdminComplaints";
+import AdminSettings from "./Pages/Admin/AdminSettings";
 
 function App() {
   return (
@@ -46,36 +55,78 @@ function App() {
           </Route>
 
           <Route path="/forgotPass">
-            <ForgotPass/>
+            <ForgotPass />
           </Route>
 
           {/* Admin Profile */}
-          <Route path="/Admin">
-            <Sidebar />
+
+          {/* Done Responsive */}
+          <Route path="/admin" exact>
+            <AdminDashboard />
+          </Route>
+
+          {/* Done Responsive */}
+          <Route path="/admin/dashboard">
+            <AdminDashboard />
+          </Route>
+
+          {/* Done Responsive */}
+          <Route path="/admin/users">
+            <AdminUsers />
+          </Route>
+
+          {/* Done Responsive */}
+          <Route path="/admin/skillCategory">
+            <AdminSkillCategories />
+          </Route>
+
+          {/* Done Responsive */}
+          <Route path="/admin/swapUsers">
+            <AdminSwapUsers />
+          </Route>
+
+          <Route path="/admin/skillApproval">
+            <AdminSkillApproval />
+          </Route>
+
+          <Route path="/admin/complaints">
+            <AdminComplaints />
+          </Route>
+
+          <Route path="/admin/verifiedBadge">
+            <AdminVerified />
+          </Route>
+
+          <Route path="/admin/ContactMess">
+            <AdminContactMess />
+          </Route>
+
+          <Route path="/admin/settings">
+            <AdminSettings />
           </Route>
 
           {/* User Profile */}
-          <Route path="/dashboard/profile">
+          <Route path="/profile/userprofile">
             <UserProfile />
           </Route>
 
-          <Route path="/dashboard/skills">
+          <Route path="/profile/skills">
             <UserSkill />
           </Route>
 
-          <Route path="/dashboard/availability">
+          <Route path="/profile/availability">
             <UserAvailability />
           </Route>
 
-          <Route path="/dashboard/myswaps">
+          <Route path="/profile/myswaps">
             <UserSwap />
           </Route>
 
-          <Route path="/dashboard/requests">
+          <Route path="/profile/requests">
             <UserRequest />
           </Route>
 
-          <Route path="/dashboard">
+          <Route path="/profile">
             <UserProfile />
           </Route>
 
