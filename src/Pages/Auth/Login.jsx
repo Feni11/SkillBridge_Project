@@ -86,7 +86,7 @@ const Login = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          py: hasError ? 4 : 0,
+          py: 3,
         }}
       >
         {/* ── Card ── */}
