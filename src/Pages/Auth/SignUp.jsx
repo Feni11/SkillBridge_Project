@@ -178,7 +178,7 @@ const SignUp = () => {
                 sx={{
                   width: "100%",
                   height: "1px",
-                  backgroundColor: "#E0D5CB",
+                  backgroundColor: "#0096a71e",
                   my: 3,
                 }}
               />

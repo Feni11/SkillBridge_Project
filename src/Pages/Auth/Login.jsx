@@ -14,23 +14,28 @@ import LockIcon from "@mui/icons-material/Lock";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 
-const Login = () => {
-  const theme = createTheme({
-    breakpoints: {
-      values: {
-        xs: 0,
-        sm: 600,
-        md: 900,
-        lg: 1200,
-        xl: 1526,
-        B1140: 1140,
-        B700: 700,
-        B450: 450,
-        B370: 370,
-      },
+const theme = createTheme({
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1200,
+      xl: 1526,
+      B1140: 1140,
+      B700: 700,
+      B450: 450,
+      B370: 370,
     },
-  });
+  },
+});
 
+const headingColor = "#072047";
+const subColor = "#0097A7";
+const headingFamily = '"Plus Jakarta Sans", sans-serif';
+const subFamily = '"Inter", sans-serif';
+
+const Login = () => {
   const history = useHistory();
 
   const [email, setEmail] = useState("");
@@ -40,11 +45,6 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const hasError = !!emailError || !!passwordError;
-
-  const headingColor = "#072047";
-  const subColor = "#0097A7";
-  const headingFamily = '"Plus Jakarta Sans", sans-serif';
-  const subFamily = '"Inter", sans-serif';
 
   const handleLogin = () => {
     let isValid = true;
@@ -67,267 +67,269 @@ const Login = () => {
     } else setPasswordError("");
 
     if (isValid) {
-      // ── Mock login — backend vagar localStorage use karo ──
-      const userName = email.split("@")[0]; // email thi name banavo
+      const userName = email.split("@")[0];
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("userName", userName);
       localStorage.setItem("userEmail", email);
-
-      // Home page par redirect
       history.push("/");
     }
   };
 
   return (
     <ThemeProvider theme={theme}>
+      {/* ── Outer — full screen center ── */}
       <Box
-        sx={{ backgroundColor: "#E8F2F8", width: "100%", minHeight: "100vh" }}
+        sx={{
+          backgroundColor: "#E8F2F8",
+          minHeight: "100vh",
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          py: hasError ? 4 : 0,
+        }}
       >
+        {/* ── Card ── */}
         <Box
           sx={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+            width: {
+              xs: "90%",
+              B370: "80%",
+              B450: "70%",
+              sm: "55%",
+              B700: "50%",
+              md: "40%",
+              B1140: "30%",
+              lg: "30%",
+            },
+            borderRadius: "16px",
+            py: 4,
+            boxShadow: "0 4px 24px rgba(7,32,71,0.10)",
+            textAlign: "center",
           }}
         >
-          <Box
+          {/* Logo */}
+          <Typography
             sx={{
-              width: {
-                xs: "90%",
-                B370: "80%",
-                B450: "70%",
-                sm: "55%",
-                B700: "50%",
-                md: "40%",
-                B1140: "30%",
-                lg: "30%",
-              },
-              height: "auto",
-              borderRadius: 4,
-              my: hasError ? 4.4 : 7.2,
-              py: 4,
-              boxShadow: 2,
-              background: "#fff",
-              flexShrink: 0,
+              color: headingColor,
+              fontSize: { xs: "24px", sm: "28px" },
+              fontFamily: headingFamily,
+              fontWeight: 700,
+              letterSpacing: "1px",
             }}
           >
-            <Typography
-              sx={{
-                color: headingColor,
-                fontSize: { xs: "26px", B370: "30px" },
-                fontFamily: headingFamily,
-                fontWeight: 600,
-                letterSpacing: "1.3px",
-              }}
-            >
-              SkillBridge
-            </Typography>
+            SkillBridge
+          </Typography>
+
+          <Typography
+            sx={{
+              fontFamily: subFamily,
+              color: subColor,
+              fontSize: "13px",
+              px: 2,
+              mt: 0.5,
+            }}
+          >
+            Where Learning Meets Opportunity
+          </Typography>
+
+          {/* Divider */}
+          <Box
+            sx={{
+              width: "100%",
+              height: "1px",
+              my: 3,
+              backgroundColor: "#0096a71e"
+            }}
+          />
+
+          {/* Form */}
+          <Box sx={{ textAlign: "left", width: "85%", mx: "auto" }}>
+            {/* Email */}
             <Typography
               sx={{
                 fontFamily: subFamily,
                 color: subColor,
-                fontSize: { xs: "14px", B370: "15px" },
-                px: 2,
+                fontSize: "14px",
+                fontWeight: 700,
+                mb: 0.5,
               }}
             >
-              Where Learning Meets Opportunity
+              Email Address
             </Typography>
-
-            <Box
-              sx={{
-                width: "100%",
-                height: "1px",
-                backgroundColor: "#E0D5CB",
-                my: 3,
+            <TextField
+              fullWidth
+              placeholder="johndoe@gmail.com"
+              variant="outlined"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              error={!!emailError}
+              helperText={emailError}
+              sx={{ mb: 2 }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Box
+                      sx={{
+                        backgroundColor: headingColor,
+                        color: "white",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        borderRadius: "4px",
+                        width: 28,
+                        height: 20,
+                      }}
+                    >
+                      <EmailIcon sx={{ fontSize: 16 }} />
+                    </Box>
+                  </InputAdornment>
+                ),
+                sx: {
+                  backgroundColor: "#fff",
+                  borderRadius: "8px",
+                  "& fieldset": { borderColor: headingColor },
+                  "&:hover fieldset": {
+                    borderColor: `${headingColor} !important`,
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: `${headingColor} !important`,
+                  },
+                  input: { fontSize: "14px", padding: "10px 0" },
+                },
               }}
             />
 
-            <Box sx={{ textAlign: "left", width: "85%", mx: "auto", mt: 4 }}>
-              {/* Email */}
-              <Typography
-                sx={{
-                  fontFamily: subFamily,
-                  color: subColor,
-                  fontSize: "15px",
-                  fontWeight: 700,
-                  mb: 0.5,
-                }}
-              >
-                Email Address
-              </Typography>
-              <TextField
-                fullWidth
-                placeholder="johndoe@gmail.com"
-                variant="outlined"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                error={!!emailError}
-                helperText={emailError}
-                sx={{ mb: 2 }}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Box
-                        sx={{
-                          backgroundColor: headingColor,
-                          color: "white",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          borderRadius: "4px",
-                          width: 28,
-                          height: 20,
-                        }}
-                      >
-                        <EmailIcon sx={{ fontSize: 16 }} />
-                      </Box>
-                    </InputAdornment>
-                  ),
-                  sx: {
-                    backgroundColor: "#fff",
-                    borderRadius: "8px",
-                    "& fieldset": { borderColor: "#072047" },
-                    "&:hover fieldset": { borderColor: "#072047 !important" },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#072047 !important",
-                    },
-                    input: { fontSize: "14px", padding: "10px 0" },
+            {/* Password */}
+            <Typography
+              sx={{
+                fontFamily: subFamily,
+                color: subColor,
+                fontSize: "14px",
+                fontWeight: 700,
+                mb: 0.5,
+              }}
+            >
+              Password
+            </Typography>
+            <TextField
+              fullWidth
+              type={showPassword ? "text" : "password"}
+              placeholder="••••••••"
+              variant="outlined"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              error={!!passwordError}
+              helperText={passwordError}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <Box
+                      sx={{
+                        backgroundColor: headingColor,
+                        color: "white",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        borderRadius: "4px",
+                        width: 28,
+                        height: 20,
+                      }}
+                    >
+                      <LockIcon sx={{ fontSize: 16 }} />
+                    </Box>
+                  </InputAdornment>
+                ),
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={() => setShowPassword(!showPassword)}
+                      edge="end"
+                    >
+                      {showPassword ? (
+                        <VisibilityOff sx={{ fontSize: 18, color: subColor }} />
+                      ) : (
+                        <Visibility sx={{ fontSize: 18, color: subColor }} />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+                sx: {
+                  backgroundColor: "#fff",
+                  borderRadius: "8px",
+                  "& fieldset": { borderColor: headingColor },
+                  "&:hover fieldset": {
+                    borderColor: `${headingColor} !important`,
                   },
-                }}
-              />
-
-              {/* Password */}
-              <Typography
-                sx={{
-                  fontFamily: subFamily,
-                  color: subColor,
-                  fontSize: "15px",
-                  fontWeight: 700,
-                  mb: 0.5,
-                }}
-              >
-                Password
-              </Typography>
-              <TextField
-                fullWidth
-                type={showPassword ? "text" : "password"}
-                placeholder="••••••••"
-                variant="outlined"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                error={!!passwordError}
-                helperText={passwordError}
-                InputProps={{
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <Box
-                        sx={{
-                          backgroundColor: headingColor,
-                          color: "white",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          borderRadius: "4px",
-                          width: 28,
-                          height: 20,
-                        }}
-                      >
-                        <LockIcon sx={{ fontSize: 16 }} />
-                      </Box>
-                    </InputAdornment>
-                  ),
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={() => setShowPassword(!showPassword)}
-                        edge="end"
-                      >
-                        {showPassword ? (
-                          <VisibilityOff
-                            sx={{ fontSize: 18, color: subColor }}
-                          />
-                        ) : (
-                          <Visibility sx={{ fontSize: 18, color: subColor }} />
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                  sx: {
-                    backgroundColor: "#fff",
-                    borderRadius: "8px",
-                    "& fieldset": { borderColor: "#072047" },
-                    "&:hover fieldset": { borderColor: "#072047 !important" },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "#072047 !important",
-                    },
-                    input: { fontSize: "14px", padding: "10px 0" },
+                  "&.Mui-focused fieldset": {
+                    borderColor: `${headingColor} !important`,
                   },
-                }}
-              />
+                  input: { fontSize: "14px", padding: "10px 0" },
+                },
+              }}
+            />
 
+            {/* Forgot Password */}
+            <Typography
+              component={Link}
+              to="/ForgotPass"
+              sx={{
+                color: subColor,
+                textDecoration: "none",
+                display: "flex",
+                justifyContent: "flex-end",
+                fontSize: "12px",
+                mt: 1,
+                fontFamily: subFamily,
+                "&:hover": { textDecoration: "underline" },
+              }}
+            >
+              Forgot Password?
+            </Typography>
+          </Box>
+
+          {/* Sign In Button */}
+          <Box sx={{ mt: 3, width: "85%", mx: "auto" }}>
+            <Box
+              onClick={handleLogin}
+              sx={{
+                width: "100%",
+                backgroundColor: headingColor,
+                color: "white",
+                borderRadius: "8px",
+                fontSize: "15px",
+                fontWeight: 700,
+                py: 1.4,
+                fontFamily: subFamily,
+                cursor: "pointer",
+                transition: "background 0.3s",
+                "&:hover": { backgroundColor: subColor },
+              }}
+            >
+              Sign in
+            </Box>
+          </Box>
+
+          {/* Sign Up */}
+          <Box sx={{ mt: 2, textAlign: "center" }}>
+            <Typography
+              variant="body2"
+              sx={{ fontFamily: subFamily, color: subColor, fontSize: "13px" }}
+            >
+              Don't have an account?{" "}
               <Typography
                 component={Link}
-                to="/ForgotPass"
+                to="/SignUp"
                 sx={{
-                  color: subColor,
+                  color: headingColor,
+                  fontWeight: 700,
                   textDecoration: "none",
-                  display: "flex",
-                  justifyContent: "right",
-                  fontSize: "12px",
-                  mt: 1,
-                  fontFamily: subFamily,
-                  "&:hover": { textDecoration: "underline" },
+                  fontSize: "14px",
                 }}
               >
-                Forgot Password?
+                Sign Up
               </Typography>
-            </Box>
-
-            {/* Login Button */}
-            <Box sx={{ mt: 3 }}>
-              <IconButton
-                onClick={handleLogin}
-                sx={{
-                  width: "85%",
-                  backgroundColor: headingColor,
-                  color: "white",
-                  borderRadius: "8px",
-                  fontSize: "16px",
-                  fontWeight: "bold",
-                  py: 1.3,
-                  fontFamily: subFamily,
-                  transition: "0.3s",
-                  "&:hover": { backgroundColor: subColor },
-                }}
-              >
-                Sign in
-              </IconButton>
-            </Box>
-
-            <Box sx={{ mt: 2, textAlign: "center" }}>
-              <Typography
-                variant="body2"
-                sx={{
-                  fontFamily: subFamily,
-                  color: subColor,
-                  fontSize: { xs: "13px", B370: "15px" },
-                }}
-              >
-                Don't have an account?{" "}
-                <Typography
-                  component={Link}
-                  to="/SignUp"
-                  sx={{
-                    color: headingColor,
-                    fontWeight: "bold",
-                    textDecoration: "none",
-                    fontSize: { xs: "15px", B370: "16px" },
-                  }}
-                >
-                  Sign Up
-                </Typography>
-              </Typography>
-            </Box>
+            </Typography>
           </Box>
         </Box>
       </Box>
