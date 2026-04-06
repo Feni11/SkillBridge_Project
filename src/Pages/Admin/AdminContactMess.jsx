@@ -158,6 +158,8 @@ const AdminContactMess = () => {
                     justifyContent: "space-between",
                     alignItems: "flex-start",
                     flexWrap: "wrap",
+                    flexDirection: "column",
+                    "@media (min-width: 390px)": { flexDirection: "row" },
                     gap: 1,
                     mb: 1,
                   }}
@@ -242,26 +244,27 @@ const AdminContactMess = () => {
 
                 {/* Mark read button */}
                 {!m.read && (
-                  <Box
-                    onClick={() => markRead(m.id)}
-                    sx={{
-                      display: "flex",
-                      justifyContent: "left",
-                      width: "10%",
-                      px: 1.8,
-                      py: 0.6,
-                      borderRadius: "8px",
-                      fontSize: "12px",
-                      fontWeight: 600,
-                      fontFamily: subFamily,
-                      cursor: "pointer",
-                      background: "rgba(0,151,167,0.08)",
-                      color: teal,
-                      transition: "all 0.2s",
-                      "&:hover": { background: "rgba(0,151,167,0.18)" },
-                    }}
-                  >
-                    ✔ Mark as Read
+                  <Box sx={{ textAlign: "left" }}>
+                    <Box
+                      onClick={() => markRead(m.id)}
+                      sx={{
+                        display: "inline-block",
+                        px: 1.8,
+                        py: 0.6,
+                        borderRadius: "8px",
+                        fontSize: "12px",
+                        fontWeight: 600,
+                        textAlign: "left",
+                        fontFamily: subFamily,
+                        cursor: "pointer",
+                        background: "rgba(0,151,167,0.08)",
+                        color: teal,
+                        transition: "all 0.2s",
+                        "&:hover": { background: "rgba(0,151,167,0.18)" },
+                      }}
+                    >
+                      ✔ Mark as Read
+                    </Box>
                   </Box>
                 )}
               </Box>

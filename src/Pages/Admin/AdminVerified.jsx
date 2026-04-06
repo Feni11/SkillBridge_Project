@@ -174,6 +174,7 @@ const AdminVerified = () => {
                       fontWeight: 800,
                       fontSize: "15px",
                       color: "#fff",
+                      flexShrink: 0,
                     }}
                   >
                     {u.letter}
@@ -190,21 +191,59 @@ const AdminVerified = () => {
                     >
                       {u.name}
                       {u.verified && (
-                        <span style={{ color: "#1DA1F2", marginLeft: "4px" }}>
+                        <span
+                          style={{
+                            color: "#1DA1F2",
+                            marginLeft: "4px",
+                            fontSize: "12px",
+                          }}
+                        >
                           ✔️
                         </span>
                       )}
                     </Typography>
-                    <Typography
+                    <Box
                       sx={{
-                        fontFamily: subFamily,
-                        fontSize: "12px",
-                        color: muted,
-                        textAlign: "left",
+                        display: "flex",
+                        flexDirection: { xs: "column", sm: "row" }, // 600px thi nani screen ma niche avi jashe
+                        alignItems: { xs: "flex-start", sm: "center" },
+                        gap: { xs: 0.2, sm: 1 },
                       }}
                     >
-                      {u.skill} · {u.email}
-                    </Typography>
+                      <Typography
+                        sx={{
+                          fontFamily: subFamily,
+                          fontSize: "12px",
+                          color: muted,
+                          textAlign: "left",
+                        }}
+                      >
+                        {u.skill}
+                      </Typography>
+
+                      {/* Dot separator: Mobile ma hide thase, Desktop ma dekhase */}
+                      <Box
+                        sx={{
+                          display: { xs: "none", sm: "block" },
+                          color: muted,
+                          fontSize: "12px",
+                        }}
+                      >
+                        •
+                      </Box>
+
+                      <Typography
+                        sx={{
+                          fontFamily: subFamily,
+                          fontSize: "12px",
+                          color: muted,
+                          textAlign: "left",
+                          wordBreak: "break-all", // Jo email motu hoy to cut na thay
+                        }}
+                      >
+                        {u.email}
+                      </Typography>
+                    </Box>
                   </Box>
                 </Box>
 

@@ -171,7 +171,7 @@ const SignUp = () => {
                 width: "100%",
                 height: "1px",
                 backgroundColor: "#0096a71e",
-                my: 3,
+                my: 2,
               }}
             />
 
@@ -180,7 +180,7 @@ const SignUp = () => {
                 textAlign: "left",
                 width: "85%",
                 mx: "auto",
-                mt: 4,
+                // mt: 4,
               }}
             >
               {/* Name */}

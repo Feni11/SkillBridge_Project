@@ -85,22 +85,27 @@ function App() {
             <AdminSwapUsers />
           </Route>
 
+          {/* Done Responsive */}
           <Route path="/admin/skillApproval">
             <AdminSkillApproval />
           </Route>
 
+          {/* Done Responsive */}
           <Route path="/admin/complaints">
             <AdminComplaints />
           </Route>
 
+          {/* Done Responsive */}
           <Route path="/admin/verifiedBadge">
             <AdminVerified />
           </Route>
 
+          {/* Done Responsive */}
           <Route path="/admin/ContactMess">
             <AdminContactMess />
           </Route>
 
+          {/* Done Responsive */}
           <Route path="/admin/settings">
             <AdminSettings />
           </Route>

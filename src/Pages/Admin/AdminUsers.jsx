@@ -158,8 +158,7 @@ const AdminUsers = () => {
       <Box
         sx={{
           p: { xs: 2, md: 3.5 },
-          height: "100vh", // ← add
-          overflowY: "auto", // ← add
+          overflowY: "auto", 
           display: "flex",
           flexDirection: "column",
         }}
@@ -229,8 +228,8 @@ const AdminUsers = () => {
             boxShadow: "0 4px 16px rgba(7,32,71,0.05)",
             overflow: "hidden",
             overflowX: "auto",
-            flex: 1,          // ← add
-    minHeight: 0, 
+            flex: 1, 
+            minHeight: 0,
           }}
         >
           <table
@@ -247,8 +246,9 @@ const AdminUsers = () => {
                       fontSize: "12px",
                       color: navy,
                       padding: "14px 16px",
-                      textAlign: "left",
+                      textAlign: "center",
                       whiteSpace: "nowrap",
+                      verticalAlign: "middle",
                     }}
                   >
                     {h}
@@ -268,20 +268,21 @@ const AdminUsers = () => {
                       fontFamily: subFamily,
                       fontSize: "13px",
                       color: muted,
-                      textAlign: "left",
+                      textAlign: "center",
+                      verticalAlign: "middle",
                     }}
                   >
                     {u.id}
                   </td>
-                  <td style={{ padding: "14px 16px" }}>
-                    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <td style={{ padding: "14px 16px", verticalAlign: "middle" }}>
+                    <Box sx={{ display: "flex", alignItems: "center",justifyContent: "center", gap: 1 }}>
                       <Typography
                         sx={{
                           fontFamily: headingFamily,
                           fontWeight: 700,
                           fontSize: "13px",
                           color: navy,
-                          textAlign: "left",
+                          textAlign: "center",
                         }}
                       >
                         {u.name}
@@ -315,7 +316,8 @@ const AdminUsers = () => {
                       fontFamily: subFamily,
                       fontSize: "13px",
                       color: muted,
-                      textAlign: "left",
+                      textAlign: "center",
+                      verticalAlign: "middle"
                     }}
                   >
                     {u.email}
@@ -326,14 +328,15 @@ const AdminUsers = () => {
                       fontFamily: subFamily,
                       fontSize: "13px",
                       color: muted,
-                      textAlign: "left",
+                      textAlign: "center",
+                      verticalAlign: "middle",
                     }}
                   >
                     {u.joined}
                   </td>
 
-                  <td style={{ padding: "14px 16px" }}>
-                    <Box sx={{ display: "flex", gap: 0.8 }}>
+                  <td style={{ padding: "14px 16px",  }}>
+                    <Box sx={{ display: "flex", gap: 0.8, justifyContent: "center" }}>
                       {/* Edit Button */}
                       <Box
                         onClick={() => openEdit(u)}

@@ -86,7 +86,7 @@ const Login = () => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          py: 3,
+          // py: 3,
         }}
       >
         {/* ── Card ── */}
@@ -103,6 +103,7 @@ const Login = () => {
               lg: "30%",
             },
             borderRadius: "16px",
+            my: 0,
             py: 4,
             boxShadow: "0 4px 24px rgba(7,32,71,0.10)",
             textAlign: "center",

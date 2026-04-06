@@ -58,6 +58,7 @@ const AdminSettings = () => {
               fontWeight: 800,
               fontSize: "22px",
               color: navy,
+              textAlign: 'left'
             }}
           >
             Settings
@@ -67,6 +68,7 @@ const AdminSettings = () => {
               fontFamily: subFamily,
               fontSize: "13px",
               color: muted,
+              textAlign: 'left',
               mt: 0.3,
             }}
           >

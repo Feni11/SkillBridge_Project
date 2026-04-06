@@ -94,10 +94,11 @@ const AdminComplaints = () => {
             borderRadius: "16px",
             border: "1px solid rgba(7,32,71,0.08)",
             boxShadow: "0 4px 16px rgba(7,32,71,0.05)",
-            overflow: "hidden",
+            overflow: "auto",
+            width: "100%",
           }}
         >
-          <Table>
+          <Table sx={{ minWidth: 700 }}>
             <TableHead>
               <TableRow sx={{ background: "#F4F8FC" }}>
                 {["#", "Users", "Date", "Message", "Status", "Actions"].map(
@@ -167,8 +168,11 @@ const AdminComplaints = () => {
                       fontSize: "12px",
                       color: muted,
                       borderBottom: "1px solid rgba(7,32,71,0.06)",
-                      maxWidth: 280,
+                      minWidth: 280,
                       textAlign: "left",
+                      whiteSpace: "normal",
+                      wordBreak: "break-word",
+                      lineHeight: "1.5",
                     }}
                   >
                     {c.msg}
