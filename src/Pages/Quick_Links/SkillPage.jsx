@@ -196,7 +196,7 @@ const SkillsPage = () => {
             background:
               "linear-gradient(135deg, #072047 0%, #0a2d4a 60%, #0097A7 100%)",
             py: { xs: 6, md: 8 },
-            px: { xs: 2.5, B490: 5 },
+            px: 0,
             position: "relative",
             overflow: "hidden",
           }}
