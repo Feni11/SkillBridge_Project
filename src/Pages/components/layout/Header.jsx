@@ -247,7 +247,7 @@ export default function Header() {
                               fontWeight: 700,
                               fontSize: "13px",
                               color: headingColor,
-                              textAlign: "left"
+                              textAlign: "left",
                             }}
                           >
                             {userName}
@@ -257,7 +257,7 @@ export default function Header() {
                               fontFamily: subFamily,
                               fontSize: "11px",
                               color: "#4A6080",
-                              textAlign: "left"
+                              textAlign: "left",
                             }}
                           >
                             {localStorage.getItem("userEmail") || ""}
@@ -267,7 +267,8 @@ export default function Header() {
                         {/* Profile Link */}
                         <Box
                           component={Link}
-                          to="/profile"
+                          // ======================= change to profile ======================
+                          to="/admin"
                           onClick={() => setProfileMenuOpen(false)}
                           sx={{
                             display: "flex",
@@ -507,7 +508,8 @@ export default function Header() {
                   fullWidth
                   variant="outlined"
                   component={Link}
-                  to="/profile"
+                  // ======================= change to profile ======================
+                  to="/admin"
                   onClick={() => setDrawerOpen(false)}
                   startIcon={<PersonIcon />}
                   sx={{

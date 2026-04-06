@@ -88,7 +88,7 @@ const WhyChoose = () => {
                   fontFamily: headingFamily,
                   fontWeight: 800,
                   fontSize: {
-                    xs: "30px",
+                    xs: "28px",
                     B331: "36px",
                     sm: "39px",
                     md: "40px",
