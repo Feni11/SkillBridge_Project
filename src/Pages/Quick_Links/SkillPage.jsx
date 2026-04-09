@@ -175,6 +175,7 @@ const skills = [
 ];
 
 const SkillsPage = () => {
+  const [requestingId, setRequestingId] = useState(null);
   const [activeCategory, setActiveCategory] = useState("All");
   const [search, setSearch] = useState("");
 
@@ -186,6 +187,17 @@ const SkillsPage = () => {
       s.skill.toLowerCase().includes(search.toLowerCase());
     return matchCategory && matchSearch;
   });
+
+  const handleSwapRequest = (id) => {
+    setRequestingId(id); // Je button par click karyu eni ID set thase
+
+    // Simulate API Call (2 second pachi pachhu normal thai jase)
+    setTimeout(() => {
+      setRequestingId(null);
+      // Console ma check kari sako ke request gai ke nai
+      console.log("Request sent for ID:", id);
+    }, 2000);
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -503,9 +515,9 @@ const SkillsPage = () => {
                               fontSize: "12px",
                               color: "#4A6080",
                               lineHeight: 1.2,
-                              textAlign: 'left',
-                              mb:1,
-                              ml:1
+                              textAlign: "left",
+                              mb: 1,
+                              ml: 1,
                             }}
                           >
                             Available
@@ -517,8 +529,8 @@ const SkillsPage = () => {
                               fontSize: "12.5px",
                               color: headingColor,
                               lineHeight: 1.2,
-                              textAlign: 'left',
-                              ml:1,
+                              textAlign: "left",
+                              ml: 1,
                             }}
                           >
                             {user.availability}
@@ -583,6 +595,9 @@ const SkillsPage = () => {
                         <Button
                           variant="contained"
                           disableElevation
+                          onClick={() => handleSwapRequest(user.id)}
+                          // Jyare sending hoy tyare button click na thai shake
+                          disabled={requestingId === user.id}
                           sx={{
                             fontFamily: subFamily,
                             fontWeight: 600,
@@ -591,7 +606,8 @@ const SkillsPage = () => {
                             borderRadius: "10px",
                             px: 2,
                             py: 0.8,
-                            background: subColor,
+                            background:
+                              requestingId === user.id ? "#ccc" : subColor,
                             color: "#fff",
                             "&:hover": { background: headingColor },
                             transition: "all 0.2s ease",
@@ -608,7 +624,7 @@ const SkillsPage = () => {
                             },
                           }}
                         >
-                          Swap Now
+                          {requestingId === user.id ? "Sending Request..." : "Swap Now"}
                         </Button>
                       </Box>
                     </CardContent>

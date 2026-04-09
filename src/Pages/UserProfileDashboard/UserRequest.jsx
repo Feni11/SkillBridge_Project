@@ -1,6 +1,5 @@
 import { Box, Typography, createTheme } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
-import ProfileDashboard from "./ProfileDashboard";
 
 const theme = createTheme({
   breakpoints: {
@@ -44,7 +43,7 @@ const requests = [
 const UserRequest = () => {
   return (
     <ThemeProvider theme={theme}>
-      <ProfileDashboard>
+   
         <Box
           sx={{
             background: "#fff",
@@ -262,7 +261,6 @@ const UserRequest = () => {
             )}
           </Box>
         </Box>
-      </ProfileDashboard>
     </ThemeProvider>
   );
 };

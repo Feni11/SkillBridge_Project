@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 import { useHistory, Link } from "react-router-dom";
 import {
   Box,
@@ -46,7 +47,7 @@ const Login = () => {
 
   const hasError = !!emailError || !!passwordError;
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     let isValid = true;
     const emailRegex = /^[a-zA-Z0-9._%+-]+@(gmail\.com|yahoo\.com|ac\.in)$/;
 
@@ -67,11 +68,43 @@ const Login = () => {
     } else setPasswordError("");
 
     if (isValid) {
-      const userName = email.split("@")[0];
-      localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("userName", userName);
-      localStorage.setItem("userEmail", email);
-      history.push("/");
+      try {
+        const response = await axios.post(
+          "http://localhost:3001/signUp/loginVerify",
+          {
+            email: email,
+            password: password,
+          },
+        );
+
+        if (response.data.status === "Success") {
+          const user = response.data.data; 
+          const token = response.data.token;
+          localStorage.setItem("isLoggedIn", "true");
+          localStorage.setItem("userName", user.name);
+          localStorage.setItem("userEmail", user.email);
+          localStorage.setItem("userData", JSON.stringify(user));
+          localStorage.setItem("token", response.data.token);
+          history.push("/profile");
+        }
+      } catch (error) {
+        console.log("Login Error: ", error);
+        if (error.response && error.response.data) {
+          const serverMsg = error.response.data.message;
+
+          if (serverMsg.includes("Email") || serverMsg.includes("user")) {
+            setEmailError(serverMsg);
+            setPasswordError("");
+          } else if (serverMsg.includes("Password")) {
+            setPasswordError(serverMsg);
+            setEmailError("");
+          } else {
+            setPasswordError(serverMsg);
+          }
+        } else {
+          setPasswordError("Server connection failed. Try again.");
+        }
+      }
     }
   };
 
@@ -140,7 +173,7 @@ const Login = () => {
               width: "100%",
               height: "1px",
               my: 3,
-              backgroundColor: "#0096a71e"
+              backgroundColor: "#0096a71e",
             }}
           />
 

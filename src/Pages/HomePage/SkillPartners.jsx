@@ -41,6 +41,7 @@ const subFamily = '"Inter", sans-serif';
 
 const partners = [
   {
+    id: 1,
     name: "Priya Shah",
     loc: "Surat, Gujarat",
     rating: "4.9",
@@ -50,6 +51,7 @@ const partners = [
     fee: "₹20,000 / month",
   },
   {
+    id: 2,
     name: "Arjun Mehta",
     loc: "Ahmedabad, Gujarat",
     rating: "4.8",
@@ -59,6 +61,7 @@ const partners = [
     fee: "₹15,000 / month",
   },
   {
+    id: 3,
     name: "Neha Patel",
     loc: "Mumbai, Maharashtra",
     rating: "5.0",
@@ -68,6 +71,7 @@ const partners = [
     fee: "₹12,000 / month",
   },
   {
+    id: 4,
     name: "Rohan Joshi",
     loc: "Pune, Maharashtra",
     rating: "4.7",
@@ -78,7 +82,7 @@ const partners = [
   },
 ];
 
-const PartnerCard = ({ partner, onClick }) => (
+const PartnerCard = ({ partner, onClick, requestingId, handleSwapRequest }) => (
   <Box
     onClick={onClick}
     sx={{
@@ -113,8 +117,8 @@ const PartnerCard = ({ partner, onClick }) => (
           position: "absolute",
           bottom: -36,
           left: 20,
-          width: {xs: 72, md: 62, B1060: 72},
-          height: {xs: 72, md: 62, B1060: 72},
+          width: { xs: 72, md: 62, B1060: 72 },
+          height: { xs: 72, md: 62, B1060: 72 },
           borderRadius: "50%",
           border: "3px solid white",
           objectFit: "cover",
@@ -144,7 +148,7 @@ const PartnerCard = ({ partner, onClick }) => (
     </Box>
 
     {/* Body */}
-    <Box sx={{ pt: "44px", px: {xs:"15px", B1060: '20px'}, pb: 2.5 }}>
+    <Box sx={{ pt: "44px", px: { xs: "15px", B1060: "20px" }, pb: 2.5 }}>
       <Typography
         sx={{
           fontFamily: headingFamily,
@@ -222,7 +226,10 @@ const PartnerCard = ({ partner, onClick }) => (
       {/* Button */}
       <Button
         fullWidth
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e) => {
+          e.stopPropagation();
+          handleSwapRequest(partner.id);
+        }}
         sx={{
           fontFamily: subFamily,
           fontWeight: 700,
@@ -239,7 +246,8 @@ const PartnerCard = ({ partner, onClick }) => (
           },
         }}
       >
-        Send Request →
+        {/* Send Request → */}
+        {requestingId === partner.id ? "Sending..." : "Send Request →"}
       </Button>
     </Box>
   </Box>
@@ -247,6 +255,17 @@ const PartnerCard = ({ partner, onClick }) => (
 
 const SkillPartners = () => {
   const [selected, setSelected] = useState(null);
+  const [requestingId, setRequestingId] = useState(null);
+  const handleSwapRequest = (id) => {
+    setRequestingId(id); // Je button par click karyu eni ID set thase
+
+    // Simulate API Call (2 second pachi pachhu normal thai jase)
+    setTimeout(() => {
+      setRequestingId(null);
+      // Console ma check kari sako ke request gai ke nai
+      console.log("Request sent for ID:", id);
+    }, 2000);
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -269,7 +288,7 @@ const SkillPartners = () => {
                   fontSize: "12px",
                   fontFamily: subFamily,
                   fontWeight: 700,
-                  padding: {xs: "6px 12px",B331: "7px 16px"},
+                  padding: { xs: "6px 12px", B331: "7px 16px" },
                   borderRadius: "100px",
                   border: "1px solid #0097a738",
                   textTransform: "uppercase",
@@ -318,6 +337,8 @@ const SkillPartners = () => {
                   <PartnerCard
                     partner={partner}
                     onClick={() => setSelected(partner)}
+                    requestingId={requestingId}
+                    handleSwapRequest={handleSwapRequest}
                   />
                 </Grid>
               ))}
@@ -481,12 +502,15 @@ const SkillPartners = () => {
                 {/* * Send Request Button */}
                 <Button
                   fullWidth
+                  onClick={() => handleSwapRequest(selected.id)}
+                  disabled={requestingId === selected.id}
                   sx={{
                     fontFamily: subFamily,
                     fontWeight: 700,
                     fontSize: "0.9rem",
                     color: headingColor,
-                    background: "white",
+                    // background: "white",
+                    background: requestingId === selected.id ? "#ccc" : subColor,
                     borderRadius: "100px",
                     py: 1.3,
                     textTransform: "none",
@@ -497,7 +521,10 @@ const SkillPartners = () => {
                     },
                   }}
                 >
-                  Send Request →
+                  {/* Send Request → */}
+                  {requestingId === selected.id
+                    ? "Sending Request..."
+                    : "Swap Now"}
                 </Button>
               </DialogContent>
             </>

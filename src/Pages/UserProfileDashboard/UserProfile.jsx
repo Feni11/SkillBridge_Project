@@ -1,27 +1,108 @@
-import { Box, Typography, Grid } from "@mui/material";
-import ProfileDashboard from "./ProfileDashboard";
+import { useState, useEffect } from "react";
+import {
+  Box,
+  Typography,
+  Grid,
+  Dialog,
+  DialogContent,
+  TextField,
+  Button,
+  Chip,
+} from "@mui/material";
+import axios from "axios";
 
 const headingColor = "#072047";
 const subColor = "#0097A7";
 const headingFamily = '"Plus Jakarta Sans", sans-serif';
 const subFamily = '"Inter", sans-serif';
 
-const stats = [
-  { val: "12", lbl: "Swaps Done" },
-  { val: "4.9", lbl: "Avg Rating" },
-  { val: "3", lbl: "Skills Listed" },
-];
-
-const infoRows = [
-  { icon: "👤", label: "Full Name", value: "Arjun Mehta" },
-  { icon: "📧", label: "Email", value: "arjun@gmail.com" },
-  { icon: "📱", label: "Phone", value: "+91 98765 43210" },
-  { icon: "📍", label: "Location", value: "Ahmedabad, Gujarat" },
-];
-
 const UserProfile = () => {
+  const [profile, setProfile] = useState(null);
+  const [open, setOpen] = useState(false);
+  const [skillInput, setSkillInput] = useState("");
+
+  const [form, setForm] = useState({
+    phone: "",
+    location: "",
+    teachingSkills: [],
+    skillFees: "",
+  });
+
+  // Profile load karvo
+  useEffect(() => {
+
+    
+    const fetchProfile = async () => {
+      try {
+        const token = localStorage.getItem("token");  
+        const res = await axios.get("http://localhost:3001/api/profile", {
+          headers: { Authorization: `Bearer ${token}` }, 
+        });
+        setProfile(res.data);
+        setForm({
+          phone: res.data.phone || "",
+          location: res.data.location || "",
+          teachingSkills: res.data.teachingSkills || [],
+          skillFees: res.data.skillFees || "",
+        });
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchProfile();
+    
+  }, []);
+
+  // Skill add karvo
+  const addSkill = () => {
+    if (skillInput.trim() && !form.teachingSkills.includes(skillInput.trim())) {
+      setForm({
+        ...form,
+        teachingSkills: [...form.teachingSkills, skillInput.trim()],
+      });
+      setSkillInput("");
+    }
+  };
+
+  // Skill remove karvo
+  const removeSkill = (s) => {
+    setForm({
+      ...form,
+      teachingSkills: form.teachingSkills.filter((x) => x !== s),
+    });
+  };
+
+  // Form submit
+  const handleSubmit = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const res = await axios.put("http://localhost:3001/api/profile", form, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setProfile(res.data.user);
+      setOpen(false);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  if (!profile) return null;
+
+  const stats = [
+    { val: profile.swapsDone, lbl: "Swaps Done" },
+    { val: profile.avgRating, lbl: "Avg Rating" },
+    { val: profile.skillsListed, lbl: "Skills Listed" },
+  ];
+
+  const infoRows = [
+    { icon: "👤", label: "Full Name", value: profile.name },
+    { icon: "📧", label: "Email", value: profile.email },
+    { icon: "📱", label: "Phone", value: profile.phone || "Not added" },
+    { icon: "📍", label: "Location", value: profile.location || "Not added" },
+  ];
+
   return (
-    <ProfileDashboard>
+    <>
       {/* Topbar */}
       <Box
         sx={{
@@ -41,7 +122,7 @@ const UserProfile = () => {
               fontWeight: 800,
               fontSize: "18px",
               color: headingColor,
-              textAlign: 'left',
+              textAlign: "left",
             }}
           >
             My Profile
@@ -51,14 +132,15 @@ const UserProfile = () => {
               fontFamily: subFamily,
               fontSize: "12px",
               color: "#4A6080",
+              textAlign: "left",
               mt: 0.3,
-              textAlign: 'left'
             }}
           >
             View and manage your profile
           </Typography>
         </Box>
         <Box
+          onClick={() => setOpen(true)}
           sx={{
             px: 2.5,
             py: 1,
@@ -69,7 +151,6 @@ const UserProfile = () => {
             fontWeight: 700,
             fontSize: "12px",
             cursor: "pointer",
-            transition: "all 0.2s ease",
             "&:hover": { background: subColor },
           }}
         >
@@ -81,7 +162,7 @@ const UserProfile = () => {
         {/* Stats */}
         <Grid container spacing={2} sx={{ mb: 3 }}>
           {stats.map((s) => (
-            <Grid key={s.lbl} size={{ xs: 12, sm:  4 }}>
+            <Grid key={s.lbl} size={{ xs: 12, sm: 4 }}>
               <Box
                 sx={{
                   background: "#fff",
@@ -89,11 +170,11 @@ const UserProfile = () => {
                   border: "1px solid rgba(7,32,71,0.07)",
                   p: 2.5,
                   textAlign: "center",
-                  transition: "all 0.2s ease",
                   "&:hover": {
                     borderColor: "rgba(0,151,167,0.2)",
                     transform: "translateY(-2px)",
                   },
+                  transition: "all 0.2s ease",
                 }}
               >
                 <Typography
@@ -173,6 +254,7 @@ const UserProfile = () => {
                   sx={{
                     display: "flex",
                     alignItems: "center",
+                        textAlign: "left",
                     gap: 1.5,
                     py: 1.2,
                     borderBottom: "1px solid rgba(7,32,71,0.05)",
@@ -190,6 +272,7 @@ const UserProfile = () => {
                       justifyContent: "center",
                       fontSize: "14px",
                       flexShrink: 0,
+                        textAlign: "left",
                     }}
                   >
                     {row.icon}
@@ -203,7 +286,7 @@ const UserProfile = () => {
                         textTransform: "uppercase",
                         letterSpacing: "0.5px",
                         fontWeight: 600,
-                        textAlign: 'left',
+                        textAlign: "left",
                       }}
                     >
                       {row.label}
@@ -214,7 +297,7 @@ const UserProfile = () => {
                         fontWeight: 600,
                         fontSize: "13px",
                         color: headingColor,
-                        textAlign: 'left',
+                        textAlign: "left",
                       }}
                     >
                       {row.value}
@@ -271,8 +354,8 @@ const UserProfile = () => {
                 </Typography>
               </Box>
               <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mb: 2.5 }}>
-                {["Graphic Design", "UI/UX", "Figma", "Brand Identity"].map(
-                  (s) => (
+                {profile.teachingSkills.length > 0 ? (
+                  profile.teachingSkills.map((s) => (
                     <Box
                       key={s}
                       sx={{
@@ -289,10 +372,26 @@ const UserProfile = () => {
                     >
                       {s}
                     </Box>
-                  ),
+                  ))
+                ) : (
+                  <Typography
+                    sx={{
+                      fontFamily: subFamily,
+                      fontSize: "12px",
+                      color: "#4A6080",
+                    }}
+                  >
+                    No skills added yet
+                  </Typography>
                 )}
               </Box>
-              <Box sx={{ pt: 2, borderTop: "1px solid rgba(7,32,71,0.06)" }}>
+              <Box
+                sx={{
+                  pt: 2,
+                  borderTop: "1px solid rgba(7,32,71,0.06)",
+                  textAlign: "center",
+                }}
+              >
                 <Typography
                   sx={{
                     fontFamily: subFamily,
@@ -302,7 +401,6 @@ const UserProfile = () => {
                     letterSpacing: "0.5px",
                     fontWeight: 600,
                     mb: 0.5,
-                    textAlign: {xs: "left", md: 'center'}
                   }}
                 >
                   Skill Value
@@ -313,17 +411,173 @@ const UserProfile = () => {
                     fontWeight: 800,
                     fontSize: "22px",
                     color: headingColor,
-                    textAlign: {xs: "left", md: 'center'}
                   }}
                 >
-                  ₹20,000
+                  ₹{profile.skillFees?.toLocaleString() || "0"}
                 </Typography>
               </Box>
             </Box>
           </Grid>
         </Grid>
       </Box>
-    </ProfileDashboard>
+
+      {/* Edit Profile Dialog */}
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        maxWidth="sm"
+        fullWidth
+        PaperProps={{ sx: { borderRadius: "20px", p: 1 } }}
+      >
+        <DialogContent>
+          <Typography
+            sx={{
+              fontFamily: headingFamily,
+              fontWeight: 800,
+              fontSize: "18px",
+              color: headingColor,
+              mb: 0.5,
+            }}
+          >
+            Edit Profile
+          </Typography>
+          <Typography
+            sx={{
+              fontFamily: subFamily,
+              fontSize: "12px",
+              color: "#4A6080",
+              mb: 3,
+            }}
+          >
+            Update your profile information
+          </Typography>
+
+          {/* Name — autofill, disabled */}
+          <TextField
+            fullWidth
+            label="Full Name"
+            value={profile.name}
+            disabled
+            sx={{ mb: 2 }}
+            size="small"
+          />
+
+          {/* Email — autofill, disabled */}
+          <TextField
+            fullWidth
+            label="Email"
+            value={profile.email}
+            disabled
+            sx={{ mb: 2 }}
+            size="small"
+          />
+
+          {/* Phone */}
+          <TextField
+            fullWidth
+            label="Phone Number"
+            value={form.phone}
+            onChange={(e) => setForm({ ...form, phone: e.target.value })}
+            sx={{ mb: 2 }}
+            size="small"
+            placeholder="+91 98765 43210"
+          />
+
+          {/* Location */}
+          <TextField
+            fullWidth
+            label="Location"
+            value={form.location}
+            onChange={(e) => setForm({ ...form, location: e.target.value })}
+            sx={{ mb: 2 }}
+            size="small"
+            placeholder="Ahmedabad, Gujarat"
+          />
+
+          {/* Teaching Skills */}
+          <Box sx={{ mb: 2 }}>
+            <Box sx={{ display: "flex", gap: 1, mb: 1 }}>
+              <TextField
+                fullWidth
+                label="Add Teaching Skill"
+                value={skillInput}
+                onChange={(e) => setSkillInput(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && addSkill()}
+                size="small"
+                placeholder="e.g. Graphic Design"
+              />
+              <Button
+                onClick={addSkill}
+                variant="contained"
+                sx={{
+                  background: headingColor,
+                  borderRadius: "8px",
+                  textTransform: "none",
+                  "&:hover": { background: subColor },
+                }}
+              >
+                Add
+              </Button>
+            </Box>
+            <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+              {form.teachingSkills.map((s) => (
+                <Chip
+                  key={s}
+                  label={s}
+                  onDelete={() => removeSkill(s)}
+                  sx={{
+                    background: "rgba(0,151,167,0.1)",
+                    color: subColor,
+                    fontFamily: subFamily,
+                    fontSize: "12px",
+                  }}
+                />
+              ))}
+            </Box>
+          </Box>
+
+          {/* Skill Fees */}
+          <TextField
+            fullWidth
+            label="Skill Fees (₹)"
+            value={form.skillFees}
+            onChange={(e) => setForm({ ...form, skillFees: e.target.value })}
+            sx={{ mb: 3 }}
+            size="small"
+            placeholder="20000"
+            type="number"
+          />
+
+          {/* Buttons */}
+          <Box sx={{ display: "flex", gap: 2, justifyContent: "flex-end" }}>
+            <Button
+              onClick={() => setOpen(false)}
+              sx={{
+                textTransform: "none",
+                color: "#4A6080",
+                fontFamily: subFamily,
+              }}
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleSubmit}
+              variant="contained"
+              sx={{
+                background: headingColor,
+                borderRadius: "9px",
+                textTransform: "none",
+                fontFamily: headingFamily,
+                fontWeight: 700,
+                "&:hover": { background: subColor },
+              }}
+            >
+              Save Changes
+            </Button>
+          </Box>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
 

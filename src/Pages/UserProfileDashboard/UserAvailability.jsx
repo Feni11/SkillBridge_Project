@@ -1,5 +1,4 @@
 import { Box, Typography } from "@mui/material";
-import ProfileDashboard from "./ProfileDashboard";
 
 const headingColor = "#072047";
 const subColor = "#0097A7";
@@ -15,7 +14,7 @@ const availRows = [
 
 const UserAvailability = () => {
   return (
-    <ProfileDashboard>
+    <>
       <Box
         sx={{
           background: "#fff",
@@ -145,9 +144,9 @@ const UserAvailability = () => {
                   fontWeight: 600,
                   fontSize: "13px",
                   color: headingColor,
-                  textAlign: 'left',
-                  flex: 1, 
-                  minWidth: 0, 
+                  textAlign: "left",
+                  flex: 1,
+                  minWidth: 0,
                 }}
               >
                 {row.label}
@@ -178,7 +177,7 @@ const UserAvailability = () => {
           ))}
         </Box>
       </Box>
-    </ProfileDashboard>
+    </>
   );
 };
 

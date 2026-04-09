@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import {
   Box,
   Typography,
@@ -21,74 +22,74 @@ const navy = "#072047";
 const teal = "#0097A7";
 const muted = "#4A6080";
 
-const initialUsers = [
-  {
-    id: 1,
-    letter: "R",
-    name: "Rhea Shah",
-    verified: true,
-    email: "rhea@email.com",
-    skill: "UI/UX Design",
-    joined: "12 Mar 2025",
-    status: "Active",
-    role: "user",
-  },
-  {
-    id: 2,
-    letter: "K",
-    name: "Karan Patel",
-    verified: false,
-    email: "karan@email.com",
-    skill: "Python & Data",
-    joined: "15 Mar 2025",
-    status: "Active",
-    role: "user",
-  },
-  {
-    id: 3,
-    letter: "P",
-    name: "Priya Nair",
-    verified: true,
-    email: "priya@email.com",
-    skill: "Yoga & Wellness",
-    joined: "18 Mar 2025",
-    status: "Blocked",
-    role: "user",
-  },
-  {
-    id: 4,
-    letter: "A",
-    name: "Amit Sharma",
-    verified: false,
-    email: "amit@email.com",
-    skill: "Finance",
-    joined: "20 Mar 2025",
-    status: "Active",
-    role: "user",
-  },
-  {
-    id: 5,
-    letter: "S",
-    name: "Sneha Joshi",
-    verified: false,
-    email: "sneha@email.com",
-    skill: "Video Editing",
-    joined: "22 Mar 2025",
-    status: "Pending",
-    role: "user",
-  },
-  {
-    id: 6,
-    letter: "R",
-    name: "Raj Mehta",
-    verified: true,
-    email: "raj@email.com",
-    skill: "Public Speaking",
-    joined: "25 Mar 2025",
-    status: "Active",
-    role: "user",
-  },
-];
+// const initialUsers = [
+//   {
+//     id: 1,
+//     letter: "R",
+//     name: "Rhea Shah",
+//     verified: true,
+//     email: "rhea@email.com",
+//     skill: "UI/UX Design",
+//     joined: "12 Mar 2025",
+//     status: "Active",
+//     role: "user",
+//   },
+//   {
+//     id: 2,
+//     letter: "K",
+//     name: "Karan Patel",
+//     verified: false,
+//     email: "karan@email.com",
+//     skill: "Python & Data",
+//     joined: "15 Mar 2025",
+//     status: "Active",
+//     role: "user",
+//   },
+//   {
+//     id: 3,
+//     letter: "P",
+//     name: "Priya Nair",
+//     verified: true,
+//     email: "priya@email.com",
+//     skill: "Yoga & Wellness",
+//     joined: "18 Mar 2025",
+//     status: "Blocked",
+//     role: "user",
+//   },
+//   {
+//     id: 4,
+//     letter: "A",
+//     name: "Amit Sharma",
+//     verified: false,
+//     email: "amit@email.com",
+//     skill: "Finance",
+//     joined: "20 Mar 2025",
+//     status: "Active",
+//     role: "user",
+//   },
+//   {
+//     id: 5,
+//     letter: "S",
+//     name: "Sneha Joshi",
+//     verified: false,
+//     email: "sneha@email.com",
+//     skill: "Video Editing",
+//     joined: "22 Mar 2025",
+//     status: "Pending",
+//     role: "user",
+//   },
+//   {
+//     id: 6,
+//     letter: "R",
+//     name: "Raj Mehta",
+//     verified: true,
+//     email: "raj@email.com",
+//     skill: "Public Speaking",
+//     joined: "25 Mar 2025",
+//     status: "Active",
+//     role: "user",
+//   },
+// ];
 
 const statusColor = {
   Active: { bg: "rgba(46,125,50,0.1)", color: "#2e7d32" },
@@ -115,10 +116,25 @@ const inputSx = {
 };
 
 const AdminUsers = () => {
-  const [users, setUsers] = useState(initialUsers);
+  const [users, setUsers] = useState([]);
   const [search, setSearch] = useState("");
   const [editUser, setEditUser] = useState(null);
   const [form, setForm] = useState({ name: "", email: "", role: "user" });
+
+  //backend data
+  const fetchUsers = async () => {
+    try {
+      const res = await axios.get("http://localhost:3001/signUp/view");
+      console.log("Users from DB:", res.data.data)
+      setUsers(res.data.data);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   const filtered = users.filter(
     (u) =>
@@ -131,25 +147,39 @@ const AdminUsers = () => {
     setForm({ name: u.name, email: u.email, role: u.role });
   };
 
-  const saveEdit = () => {
-    setUsers((prev) =>
-      prev.map((u) =>
-        u.id === editUser.id
-          ? { ...u, name: form.name, email: form.email, role: form.role }
-          : u,
-      ),
-    );
-    setEditUser(null);
-  };
+  const saveEdit = async () => {
+  try {
+    
+    await axios.patch(`http://localhost:3001/signUp/update/${editUser._id}`, {
+      role: form.role,
+    });
 
-  const toggleBlock = (id) => {
+    // 2. Frontend State Update
     setUsers((prev) =>
       prev.map((u) =>
-        u.id === id
-          ? { ...u, status: u.status === "Blocked" ? "Active" : "Blocked" }
-          : u,
-      ),
+        u._id === editUser._id 
+          ? { ...u, role: form.role } 
+          : u
+      )
     );
+    setEditUser(null); 
+  } catch (error) {
+    console.error("Update failed:", error);
+    alert("Update Fail. Try again");
+  }
+};
+
+
+  const toggleBlock = async (id, currentStatus) => {
+    try {
+      const newStatus = currentStatus === "Blocked" ? "Active" : "Blocked";
+      await axios.patch(`http://localhost:3001/signUp/update/${id}`, {
+        status: newStatus,
+      });
+      fetchUsers();
+    } catch (error) {
+      alert("Status update failed!");
+    }
   };
 
   return (
@@ -158,7 +188,7 @@ const AdminUsers = () => {
       <Box
         sx={{
           p: { xs: 2, md: 3.5 },
-          overflowY: "auto", 
+          overflowY: "auto",
           display: "flex",
           flexDirection: "column",
         }}
@@ -228,7 +258,7 @@ const AdminUsers = () => {
             boxShadow: "0 4px 16px rgba(7,32,71,0.05)",
             overflow: "hidden",
             overflowX: "auto",
-            flex: 1, 
+            flex: 1,
             minHeight: 0,
           }}
         >
@@ -259,7 +289,7 @@ const AdminUsers = () => {
             <tbody>
               {filtered.map((u) => (
                 <tr
-                  key={u.id}
+                  key={u._id}
                   style={{ borderTop: "1px solid rgba(7,32,71,0.06)" }}
                 >
                   <td
@@ -272,10 +302,17 @@ const AdminUsers = () => {
                       verticalAlign: "middle",
                     }}
                   >
-                    {u.id}
+                    {u._id.substring(0, 5)}
                   </td>
                   <td style={{ padding: "14px 16px", verticalAlign: "middle" }}>
-                    <Box sx={{ display: "flex", alignItems: "center",justifyContent: "center", gap: 1 }}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: 1,
+                      }}
+                    >
                       <Typography
                         sx={{
                           fontFamily: headingFamily,
@@ -317,7 +354,7 @@ const AdminUsers = () => {
                       fontSize: "13px",
                       color: muted,
                       textAlign: "center",
-                      verticalAlign: "middle"
+                      verticalAlign: "middle",
                     }}
                   >
                     {u.email}
@@ -332,11 +369,17 @@ const AdminUsers = () => {
                       verticalAlign: "middle",
                     }}
                   >
-                    {u.joined}
+                    {u.createdAt ? new Date(u.createdAt).toLocaleDateString() : "N/A"}
                   </td>
 
-                  <td style={{ padding: "14px 16px",  }}>
-                    <Box sx={{ display: "flex", gap: 0.8, justifyContent: "center" }}>
+                  <td style={{ padding: "14px 16px" }}>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        gap: 0.8,
+                        justifyContent: "center",
+                      }}
+                    >
                       {/* Edit Button */}
                       <Box
                         onClick={() => openEdit(u)}
@@ -357,7 +400,7 @@ const AdminUsers = () => {
                       </Box>
                       {/* Block/Unblock */}
                       <Box
-                        onClick={() => toggleBlock(u.id)}
+                        onClick={() => toggleBlock(u._id, u.status)}
                         sx={{
                           px: 1.5,
                           py: 0.6,
@@ -376,6 +419,9 @@ const AdminUsers = () => {
                               u.status === "Blocked"
                                 ? "rgba(46,125,50,0.2)"
                                 : "rgba(229,57,53,0.18)",
+                            color:
+                              u.status === "Blocked" ? "#2e7d32" : "#e53935",
+                            cursor: "pointer",
                           },
                         }}
                       >
@@ -498,6 +544,7 @@ const AdminUsers = () => {
                   onChange={(e) => setForm({ ...form, name: e.target.value })}
                   size="small"
                   fullWidth
+                  disabled
                   sx={inputSx}
                 />
 
@@ -508,6 +555,7 @@ const AdminUsers = () => {
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
                   size="small"
                   fullWidth
+                  disabled
                   type="email"
                   sx={inputSx}
                 />

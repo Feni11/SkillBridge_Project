@@ -67,6 +67,7 @@ export default function Header() {
   useEffect(() => {
     const loggedIn = localStorage.getItem("isLoggedIn") === "true";
     const name = localStorage.getItem("userName") || "";
+    const email = localStorage.getItem("userEmail") || "";
     setIsLoggedIn(loggedIn);
     setUserName(name);
   }, [location.pathname]); // route change thashe to re-check thashe
@@ -92,7 +93,7 @@ export default function Header() {
   };
 
   // ── Profile Avatar Letter ──
-  const avatarLetter = userName ? userName[0].toUpperCase() : "U";
+  const avatarLetter = userName ? userName.trim()[0].toUpperCase() : "U";
 
   return (
     <ThemeProvider theme={customTheme}>
@@ -245,12 +246,13 @@ export default function Header() {
                             sx={{
                               fontFamily: headingFamily,
                               fontWeight: 700,
-                              fontSize: "13px",
+                              fontSize: "14px", // Slightly larger for name
                               color: headingColor,
                               textAlign: "left",
+                              textTransform: "capitalize", // Looks professional
                             }}
                           >
-                            {userName}
+                            {userName || "User"}
                           </Typography>
                           <Typography
                             sx={{
@@ -267,8 +269,7 @@ export default function Header() {
                         {/* Profile Link */}
                         <Box
                           component={Link}
-                          // ======================= change to profile ======================
-                          to="/admin"
+                          to="/profile"
                           onClick={() => setProfileMenuOpen(false)}
                           sx={{
                             display: "flex",
@@ -508,8 +509,7 @@ export default function Header() {
                   fullWidth
                   variant="outlined"
                   component={Link}
-                  // ======================= change to profile ======================
-                  to="/admin"
+                  to="/profile"
                   onClick={() => setDrawerOpen(false)}
                   startIcon={<PersonIcon />}
                   sx={{

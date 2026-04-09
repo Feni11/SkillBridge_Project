@@ -1,5 +1,4 @@
 import { Box, Typography, Grid } from "@mui/material";
-import ProfileDashboard from "./ProfileDashboard";
 
 const headingColor = "#072047";
 const subColor = "#0097A7";
@@ -16,7 +15,7 @@ const learnSkills = ["React Development", "Video Editing", "Public Speaking"];
 
 const UserSkill = () => {
   return (
-    <ProfileDashboard>
+      <>
       <Box
         sx={{
           background: "#fff",
@@ -237,7 +236,7 @@ const UserSkill = () => {
           </Grid>
         </Grid>
       </Box>
-    </ProfileDashboard>
+    </>
   );
 };
 

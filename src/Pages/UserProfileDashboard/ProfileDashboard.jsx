@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Typography, Avatar, Drawer, IconButton } from "@mui/material";
 import { Link, useLocation, useHistory } from "react-router-dom";
 import MenuIcon from "@mui/icons-material/Menu";
@@ -10,7 +10,12 @@ const headingFamily = '"Plus Jakarta Sans", sans-serif';
 const subFamily = '"Inter", sans-serif';
 
 const navItems = [
-  { label: "Profile", icon: "👤", path: "/profile/userprofile", section: "Main" },
+  {
+    label: "Profile",
+    icon: "👤",
+    path: "/profile/userprofile",
+    section: "Main",
+  },
   {
     label: "My Skills",
     icon: "🎯",
@@ -38,7 +43,7 @@ const navItems = [
   },
 ];
 
-const SidebarContent = ({ location, handleLogout, onClose }) => {
+const SidebarContent = ({ location, handleLogout, onClose, userData }) => {
   const sections = [...new Set(navItems.map((n) => n.section))];
 
   return (
@@ -62,7 +67,7 @@ const SidebarContent = ({ location, handleLogout, onClose }) => {
         }}
       >
         <Avatar
-        src="/person2.png"
+          // src="/person2.png"
           sx={{
             width: 50,
             height: 50,
@@ -73,7 +78,7 @@ const SidebarContent = ({ location, handleLogout, onClose }) => {
             fontSize: "20px",
           }}
         >
-          A
+          {userData.name ? userData.name.charAt(0).toUpperCase() : "U"}
         </Avatar>
         <Box sx={{ flex: 1 }}>
           <Typography
@@ -85,7 +90,7 @@ const SidebarContent = ({ location, handleLogout, onClose }) => {
               textAlign: "left",
             }}
           >
-            Arjun Mehta
+            {userData.name || "Loading..."}
           </Typography>
           <Typography
             sx={{
@@ -96,7 +101,7 @@ const SidebarContent = ({ location, handleLogout, onClose }) => {
               textAlign: "left",
             }}
           >
-            arjun@gmail.com
+            {userData.email || "email@example.com"}
           </Typography>
         </Box>
         {/* Close button — mobile only */}
@@ -245,10 +250,62 @@ const SidebarContent = ({ location, handleLogout, onClose }) => {
 const ProfileDashboard = ({ children }) => {
   const location = useLocation();
   const history = useHistory();
+  const [userName, setUserName] = useState("");
+  const [userEmail, setUserEmail] = useState("");
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const [userData, setUserData] = useState({ name: "", email: "" });
+
+  const getUserData = async () => {
+    try {
+      const loggedInEmail = localStorage.getItem("userEmail");
+
+      if (!loggedInEmail) {
+        console.log("No user is logged in.");
+        return;
+      }
+
+      const response = await fetch("http://localhost:3001/signUp/view");
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error("Data fetch karva ma bhul che");
+      }
+
+      let allUsers = [];
+      if (Array.isArray(result)) {
+        allUsers = result;
+      } else if (result.data && Array.isArray(result.data)) {
+        allUsers = result.data;
+      }
+
+      const currentUser = allUsers.find((user) => user.email === loggedInEmail);
+
+      if (currentUser) {
+        setUserData({
+          name: currentUser.name,
+          email: currentUser.email,
+        });
+        localStorage.setItem("userData", JSON.stringify(currentUser));
+      } else {
+        console.log("User not found in database for email:", loggedInEmail);
+      }
+    } catch (error) {
+      console.error("API Error:", error.message);
+    }
+  };
+
+  useEffect(() => {
+    const storedName = localStorage.getItem("userName");
+    const storedEmail = localStorage.getItem("userEmail");
+
+    if (storedName) setUserName(storedName);
+    if (storedEmail) setUserEmail(storedEmail);
+    getUserData();
+  }, []);
 
   const handleLogout = () => {
-    history.push("/login");
+    localStorage.clear();
+    history.push("/");
   };
 
   // Current page name find karo
@@ -272,6 +329,7 @@ const ProfileDashboard = ({ children }) => {
         <SidebarContent
           location={location}
           handleLogout={handleLogout}
+          userData={userData}
           onClose={null}
         />
       </Box>
@@ -288,6 +346,7 @@ const ProfileDashboard = ({ children }) => {
         <SidebarContent
           location={location}
           handleLogout={handleLogout}
+          userData={userData} // Aa line add karo
           onClose={() => setDrawerOpen(false)}
         />
       </Drawer>
@@ -336,8 +395,12 @@ const ProfileDashboard = ({ children }) => {
           </Typography>
 
           {/* Edit Button — right side */}
-          
-          {["/dashboard/profile", "/dashboard/skills", "/dashboard/availability"].includes(location.pathname) && (
+
+          {[
+            "/profile/userprofile",
+            "/profile/skills",
+            "/profile/availability",
+          ].includes(location.pathname) && (
             <Box
               sx={{
                 px: 2,

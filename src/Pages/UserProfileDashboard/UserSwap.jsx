@@ -1,5 +1,4 @@
 import { Box, Typography, createTheme } from "@mui/material";
-import ProfileDashboard from "./ProfileDashboard";
 import { ThemeProvider } from "@mui/material/styles";
 
 const theme = createTheme({
@@ -54,7 +53,6 @@ const swaps = [
 const UserSwap = () => {
   return (
     <ThemeProvider theme={theme}>
-      <ProfileDashboard>
         <Box
           sx={{
             background: "#fff",
@@ -234,7 +232,6 @@ const UserSwap = () => {
             ))}
           </Box>
         </Box>
-      </ProfileDashboard>
     </ThemeProvider>
   );
 };

@@ -39,6 +39,7 @@ import AdminVerified from "./Pages/Admin/AdminVerified";
 import AdminSkillApproval from "./Pages/Admin/AdminSkillApproval";
 import AdminComplaints from "./Pages/Admin/AdminComplaints";
 import AdminSettings from "./Pages/Admin/AdminSettings";
+import Chatbox from "./Pages/components/layout/Chatbox";
 
 function App() {
   return (
@@ -56,6 +57,10 @@ function App() {
 
           <Route path="/forgotPass">
             <ForgotPass />
+          </Route>
+
+          <Route path="/chatbox">
+            <Chatbox />
           </Route>
 
           {/* Admin Profile */}
@@ -111,28 +116,17 @@ function App() {
           </Route>
 
           {/* User Profile */}
-          <Route path="/profile/userprofile">
-            <UserProfile />
-          </Route>
-
-          <Route path="/profile/skills">
-            <UserSkill />
-          </Route>
-
-          <Route path="/profile/availability">
-            <UserAvailability />
-          </Route>
-
-          <Route path="/profile/myswaps">
-            <UserSwap />
-          </Route>
-
-          <Route path="/profile/requests">
-            <UserRequest />
-          </Route>
-
-          <Route path="/profile">
-            <UserProfile />
+          <Route path="/profile/:subpath?">
+            <ProfileDashboard>
+              <Switch>
+                <Route exact path="/profile/userprofile" component={UserProfile} />
+                <Route exact path="/profile/skills" component={UserSkill} />
+                <Route exact path="/profile/availability" component={UserAvailability}/>
+                <Route exact path="/profile/myswaps" component={UserSwap} />
+                <Route exact path="/profile/requests" component={UserRequest} />
+                <Route path="/profile" component={UserProfile} />
+              </Switch>
+            </ProfileDashboard>
           </Route>
 
           {/* User Visited Dashboard */}

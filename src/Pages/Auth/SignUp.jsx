@@ -1,4 +1,5 @@
 import { useState } from "react";
+import axios from "axios";
 import { ThemeProvider } from "@mui/material/styles";
 import {
   Box,
@@ -52,8 +53,10 @@ const SignUp = () => {
   };
 
   //validation
-  const handleLogin = () => {
+  const handleLogin = async () => {
     let isValid = true;
+
+
 
     // 1. Name Validation Logic
     const nameRegex = /^[A-Za-z\s]+$/;
@@ -102,9 +105,44 @@ const SignUp = () => {
     }
 
     if (isValid) {
-      console.log("Login details:", { email, password });
+      try{
+        const res = await axios.post('http://localhost:3001/signUp/create', {
+          name,
+          email, 
+          password,
+        })
+        if(res.status === 201){
+          alert("Registration Successful!")
+          setName("")
+          setEmail("")
+          setPassword("")
+        }
+      }
+      catch(error){
+        console.error("Error During Signup:", error)
+        alert(error.response?.data?.message || "Something went wrong!"); if (isValid) {
+      try{
+        const res = axios.post('http://localhost:3001/signUp/create', {
+          name,
+          email, 
+          password,
+        })
+        if(res.status === 201){
+          alert("Registration Successful!")
+          setName("")
+          setEmail("")
+          setPassword("")
+        }
+      }
+      catch(error){
+        console.error("Error During Signup:", error)
+        alert(error.response?.data?.message || "Something went wrong!");
+      }
     }
-  };
+      }
+    }
+  }
+
   const headingColor = "#072047";
   const subColor = "#0097A7";
   const headingFamily = '"Plus Jakarta Sans", sans-serif';
